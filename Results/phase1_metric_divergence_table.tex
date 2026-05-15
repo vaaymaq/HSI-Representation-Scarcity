@@ -1,0 +1,18 @@
+\begin{tabular}{llccrrccccc}
+\toprule
+Dataset & Target & Model & CL & d & k & OA (%) & AA (%) & F1_Macro (%) & Min Class & F1_Min (%) \\
+\midrule
+Indian Pines & Max OA & PCA & SVM & 64 & 0.75 & 70.59 & 57.71 & 45.98 & Oats & 0.00 \\
+Indian Pines & Max AA & AE & DT & 2 & 0.50 & 26.80 & 95.42 & 52.64 & Oats & 0.00 \\
+Indian Pines & Max F1 & DINO\_VIT & SVM & 4 & 0.50 & 52.01 & 87.74 & 58.65 & Oats & 0.00 \\
+KSC & Max OA & MAE\_VIT & RF & 32 & 0.75 & 84.09 & 79.39 & 75.84 & Swamp & 72.41 \\
+KSC & Max AA & VIT & RF & 64 & 0.75 & 83.04 & 82.90 & 76.80 & Swamp & 79.85 \\
+KSC & Max F1 & MAE\_VIT & RF & 64 & 0.75 & 83.33 & 81.07 & 77.91 & Swamp & 76.60 \\
+Pavia University & Max OA & MAE\_VIT & XGB & 64 & 1.00 & 97.22 & 94.52 & 94.30 & Shadows & 99.12 \\
+Pavia University & Max AA & MAE\_VIT & XGB & 32 & 0.25 & 97.20 & 94.69 & 94.39 & Shadows & 99.19 \\
+Pavia University & Max F1 & MAE\_VIT & XGB & 64 & 0.25 & 97.18 & 94.47 & 94.47 & Shadows & 99.08 \\
+Salinas & Max OA & MAE\_VIT & XGB & 8 & 1.00 & 91.58 & 85.79 & 85.70 & Lettuce romaine 6wk & 78.25 \\
+Salinas & Max AA & PCA & NB & 64 & 0.75 & 89.11 & 88.10 & 85.78 & Lettuce romaine 6wk & 71.51 \\
+Salinas & Max F1 & MAE\_VIT & XGB & 16 & 0.75 & 90.41 & 87.21 & 86.72 & Lettuce romaine 6wk & 83.81 \\
+\bottomrule
+\end{tabular}

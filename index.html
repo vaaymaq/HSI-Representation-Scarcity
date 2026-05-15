@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSI Representation under Data Scarcity</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            color: #333;
+            background-color: #fff;
+        }
+        .sidebar {
+            width: 280px;
+            background-color: #f8f9fa;
+            padding: 40px 20px;
+            height: 100vh;
+            position: fixed;
+            border-right: 1px solid #eaeaea;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .sidebar h2 {
+            font-size: 16px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 40px;
+            border-bottom: 2px solid #0366d6;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        .sidebar p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+        .sidebar .project-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #24292e;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+        .main-content {
+            margin-left: 280px;
+            padding: 50px 80px;
+            max-width: 1000px;
+            box-sizing: border-box;
+        }
+        h1 { color: #24292e; font-size: 32px; border-bottom: 1px solid #eaeaea; padding-bottom: 10px; line-height: 1.3;}
+        h2 { color: #24292e; margin-top: 40px; }
+        p { line-height: 1.6; font-size: 16px; }
+        img { max-width: 100%; border-radius: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 20px 0; border: 1px solid #eee;}
+        .btn {
+            display: inline-block; padding: 10px 20px; background-color: #0366d6; color: white;
+            text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px;
+        }
+        .btn:hover { background-color: #005cc5; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="project-title">
+            Representation Learning for Hyperspectral Image Classification
+        </div>
+        <p>Assessing the influence of using a reduced number of samples.</p>
+        
+        <h2>Authors</h2>
+        <p><strong>[Tu Nombre Aquí]</strong></p>
+        <p>Juan David Amado</p>
+        <p>[Otros Co-Autores]</p>
+        
+        <h2>Links</h2>
+        <a href="https://github.com/vaaymaq/HSI-Representation-Scarcity" class="btn" style="width: 80%; box-sizing: border-box;">View Code on GitHub</a>
+    </div>
+
+    <div class="main-content">
+        <h1>Assessing the influence of using a reduced number of samples for creating different representation models for hyperspectral image classification</h1>
+        
+        <h2>Overview</h2>
+        <p>This page presents the visual results of our methodology to evaluate the impact of training sample size (<em>k</em>) on various Representation Learning (RL) models for Hyperspectral Image (HSI) classification.</p>
+        <p>We rigorously compared <strong>pixel-wise baselines</strong> (PCA, AE) against advanced <strong>spatial-spectral models</strong> (including ViT, MAE-ViT, and DINO-ViT) under extreme data scarcity constraints.</p>
+
+        <h2>Phase 1: Metric Divergence Table</h2>
+        <p>Optimizing exclusively for Overall Accuracy (OA) often leads to catastrophic failure in minority classes. The following table empirically justifies the selection of F1-Macro as the primary metric for our evaluation.</p>
+        <img src="Results/phase1_metric_divergence_table.png" alt="Metric Divergence Table">
+
+        <h2>Phase 3: Latent Convergence Analysis</h2>
+        <p>We analyzed how the models converge and behave when increasing their latent dimension (<em>d</em>) capacity.</p>
+        <img src="Results/phase3_latent_convergence_grid.png" alt="Latent Convergence">
+
+        <h2>Phase 4: Class-wise Delta Performance</h2>
+        <p>How does extreme data scarcity (k=0.25 vs k=1.0) impact each specific class? The following heatmap illustrates the Delta (&Delta;) F1-Score per class for the Indian Pines dataset.</p>
+        <img src="Results_Delta/phase4_delta_analysis_Indian_Pines_heatmap.png" alt="Delta Heatmap Indian Pines">
+
+        <h2>Phase 4: Granular Heatmap (Pavia University)</h2>
+        <p>Absolute F1-Score representation for Pavia University across all models and configurations.</p>
+        <img src="Results/phase4_granular_analysis_Pavia_University_heatmap.png" alt="Granular Heatmap Pavia University">
+
+    </div>
+
+</body>
+</html>
