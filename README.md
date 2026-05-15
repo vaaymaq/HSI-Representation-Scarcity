@@ -20,27 +20,38 @@ This repository provides the complete experimental pipeline to evaluate the impa
 
 ---
 
-## 📁 Repository Structure
-
-**Proposed Methodology:**
+## 🧠 Proposed Methodology
 
 <p align="center">
   <img src="Results/Fig_Metodologia.png" width="800" alt="Methodology Flowchart">
 </p>
-<br>
 
-* `01_hsi_representation_learning.ipynb`: The core experimental notebook. Its internal structure is highly modular:
-  * **Libraries & Functions:** Definition of RL architectures (PCA, AE, VIT, MAE-VIT, DINO-VIT) and downstream classifiers.
-  * **Experimental Configurations ⭐:** The control center of the pipeline. Here, users can adjust the `DATASET_ID`, training data proportions ($k$), latent dimensions ($d$), and the specific sets of representation models and classifiers to evaluate.
-  * **Stage I (DPRL):** Data preparation ensuring strict spatial-spectral partitions to prevent data leakage.
-  * **Stage II (RL):** Automated execution of the Representation Learning training loops across the combinatorial grid.
-  * **Classification:** Extraction of the latent space ($Z$) and downstream evaluation, exporting the final `.csv` performance metrics.
-* `Results/Fig_Metodologia.pdf`: The official visual flowchart of the proposed methodology.
+The flowchart above illustrates the overarching Representation Learning (RL) pipeline evaluated in this study. The fundamental goal is to map the high-dimensional hyperspectral input $\mathcal{X}$ into a robust, lower-dimensional latent space $Z \in \mathbb{R}^d$ while severely restricting the training data pool ($k$). Once these compact features are extracted, a downstream Classifier (CL) evaluates the topological quality of the latent space $Z$ by predicting the final land-cover labels $\mathcal{Y}$.
+
+---
+
+## 📁 Repository Structure
+
+* `01_hsi_representation_learning.ipynb`: The core experimental notebook bridging the theoretical framework with the execution code. Its internal structure is highly modular:
+  * **LIBRARIES DEFINITION & FUNCTIONS DEFINITIONS:** Core setup, including the definition of the `RL STAGE` architectures (e.g., PCA, AE, ViT, MAE-ViT) and the `CLASIFICATION STAGE` downstream models (SVM, RF, XGBoost).
+  * **EXPERIMENTAL CONFIGURATIONS ⭐:** The control center where critical hyperparameters are set:
+    * `DATASET_ID`: The target dataset (e.g., Indian Pines, Pavia, Salinas, KSC).
+    * `K`: The array of training sample proportions ($k$, e.g., 0.25 to 1.0).
+    * `D`: The target latent dimensions ($d$, e.g., 2 to 64).
+    * `LEARNERS` & `CLASSIFIERS`: The specific sets of RL architectures and downstream models to evaluate.
+  * **REPRESENTATION LEARNINGS:**
+    * **STAGE I: DATASET PREPARATION FOR REPRESENTATION LEARNING (DPRL):** The hyperspectral input $\mathcal{X}$ is strictly partitioned based on the $k$-subset constraint to prevent spatial-spectral leakage.
+    * **STAGE II: REPRESENTATION LEARNING (RL):** Automated execution of training loops to learn the mapping function $f_\theta: \mathcal{X} \rightarrow Z$ across the combinatorial grid of models and $d$ dimensions.
+  * **CLASIFICATION:**
+    * **STAGE I: DATASET PREPARATION FOR CLASSIFICATION (DPC):** The data is loaded and spatial/spectral patches are extracted depending on the model requirement.
+    * **STAGE II: CLASSIFICATION LEARNING (CL):** This main block executes three concurrent tasks exactly as depicted in the methodology flowchart:
+      * **Feature Extraction (FE):** The previously trained mapping function $f_\theta$ is applied to project the raw test data into the latent space $Z$.
+      * **Classification Learning (CL):** Traditional classifiers are trained on the generated embeddings $Z$ to predict the land-cover classes $\mathcal{Y}$.
+      * **Classification Evaluation (CE):** Cross-validation metrics (F1-Macro, OA, Class-wise F1) are rigorously computed and exported to `.csv`.
 * `02_generate_visualizations.py`: An automated, publication-ready visualization script. It parses the raw output CSVs to generate:
-  * Metric Divergence Tables (OA vs F1-Macro).
-  * Classifier Stability Boxplots.
-  * Latent Convergence Analysis Grids.
-  * Class-wise Delta ($\Delta$) Heatmaps.
+  * Classifier Stability Boxplots (F1-macro across datasets).
+  * Latent Convergence Analysis Grids ($d$ vs F1-macro).
+  * Class-wise Delta ($\Delta$) Heatmaps ($\Delta = F1_{k=1.0} - F1_{k=0.25}$).
 * `environment.yml`: The Conda configuration file containing the exact versions of the libraries used, guaranteeing full reproducibility.
 * `Raw_Reports/`: Contains the raw CSV output (`*_Combined_Performance.csv`) from the trained models.
 * `Results/` & `Results_Delta/`: Directories generated automatically by the plotting script containing the essential high-resolution vector figures (`.pdf`) used in the paper.
@@ -84,16 +95,17 @@ This framework incorporates a strict **Metric Divergence Check**. As demonstrate
 ---
 
 ## 📝 Citation
-If you find this code or our methodology useful in your research, please consider citing:
+If you find this code or our methodology useful in your research, please consider citing our published work:
 
 ```bibtex
-@article{YourName2026,
-  title={Assessing the influence of using a reduced number of samples for creating different representation models for hyperspectral image classification},
-  author={Your Name and Co-Authors},
-  journal={IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing (JSTARS)},
-  year={2026},
-  volume={X},
-  pages={XX-XX}
+@inproceedings{AymaQuirita2026,
+  author    = {Ayma Quirita, Victor Andres and Palacios, Aramis and Ayma Quirita, Victor Hugo and Aliaga, Walter and Costa, Gilson A. O. P.},
+  title     = {Impact of Training Set Size on Representation Learning for Hyperspectral Image Classification},
+  booktitle = {ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences},
+  volume    = {X-3/W4-2025},
+  pages     = {21--26},
+  year      = {2026},
+  doi       = {10.5194/isprs-annals-X-3-W4-2025-21-2026}
 }
 ```
 
