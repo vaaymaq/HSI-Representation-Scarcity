@@ -22,12 +22,20 @@ This repository provides the complete experimental pipeline to evaluate the impa
 
 ## 📁 Repository Structure
 
+**Proposed Methodology:**
+
+<p align="center">
+  <img src="Results/Fig_Metodologia.png" width="800" alt="Methodology Flowchart">
+</p>
+<br>
+
 * `01_hsi_representation_learning.ipynb`: The core experimental notebook. Its internal structure is highly modular:
   * **Libraries & Functions:** Definition of RL architectures (PCA, AE, VIT, MAE-VIT, DINO-VIT) and downstream classifiers.
   * **Experimental Configurations ⭐:** The control center of the pipeline. Here, users can adjust the `DATASET_ID`, training data proportions ($k$), latent dimensions ($d$), and the specific sets of representation models and classifiers to evaluate.
   * **Stage I (DPRL):** Data preparation ensuring strict spatial-spectral partitions to prevent data leakage.
   * **Stage II (RL):** Automated execution of the Representation Learning training loops across the combinatorial grid.
   * **Classification:** Extraction of the latent space ($Z$) and downstream evaluation, exporting the final `.csv` performance metrics.
+* `Results/Fig_Metodologia.pdf`: The official visual flowchart of the proposed methodology.
 * `02_generate_visualizations.py`: An automated, publication-ready visualization script. It parses the raw output CSVs to generate:
   * Metric Divergence Tables (OA vs F1-Macro).
   * Classifier Stability Boxplots.

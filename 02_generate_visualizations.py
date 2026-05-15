@@ -545,20 +545,18 @@ def generate_phase4_delta_heatmap(df, output_dir):
         
         plt.subplots_adjust(left=0.3)
         
-        output_path_pdf = os.path.join(output_dir, f'phase4_delta_analysis_{ds}_heatmap.pdf')
-        output_path_png = os.path.join(output_dir, f'phase4_delta_analysis_{ds}_heatmap.png')
-        plt.savefig(output_path_pdf, dpi=300, bbox_inches='tight')
-        plt.savefig(output_path_png, dpi=300, bbox_inches='tight')
+        output_path = os.path.join(output_dir, f'phase4_delta_analysis_{ds}_heatmap.pdf')
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
         plt.close()
-        print(f">>> [SUCCESS] Delta heatmap saved: {output_path_pdf} and .png")
+        print(f">>> [SUCCESS] Delta heatmap saved: {output_path}")
 
 # ==========================================
 # MAIN EXECUTION
 # ==========================================
 def main():
     parser = argparse.ArgumentParser(description="JD Technical Report Visualization Tool")
-    parser.add_argument("input", nargs='?', default="Raw_Reports", help="Input folder containing CSVs")
-    parser.add_argument("output", nargs='?', default="Results", help="Output folder for images")
+    parser.add_argument("input", nargs='?', default="Reports", help="Input folder containing CSVs")
+    parser.add_argument("output", nargs='?', default="ResultsF", help="Output folder for images")
     args = parser.parse_args()
 
     if not os.path.exists(args.input):
@@ -591,8 +589,8 @@ def main():
     generate_phase3_grid(df_all, args.output)
     generate_phase4_heatmap(df_all, args.output)  # Granular Heatmap
     
-    # Run Delta Heatmap in Results_Delta
-    output_dir2 = "Results_Delta"
+    # Run Delta Heatmap in ResultsF2
+    output_dir2 = "ResultsF2"
     generate_phase4_delta_heatmap(df_all, output_dir2)
     
     print(f"\n>>> [DONE] Main reports generated in: {args.output}")

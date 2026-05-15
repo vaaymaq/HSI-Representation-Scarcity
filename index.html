@@ -71,36 +71,61 @@
         <p>Assessing the influence of using a reduced number of samples.</p>
         
         <h2>Authors</h2>
-        <p><strong>[Tu Nombre Aquí]</strong></p>
+        <p>Victor Andres Ayma Quirita</p>
+        <p>Aramis Palacios</p>
+        <p>Victor Hugo Ayma Quirita</p>
+        <p>Walter Aliaga</p>
+        <p>Gilson A. O. P. Costa</p>
         <p>Juan David Amado</p>
-        <p>[Otros Co-Autores]</p>
         
         <h2>Links</h2>
         <a href="https://github.com/vaaymaq/HSI-Representation-Scarcity" class="btn" style="width: 80%; box-sizing: border-box;">View Code on GitHub</a>
+        
+        <div style="margin-top: 40px; font-size: 13px; color: #586069; line-height: 1.5; padding: 15px; background-color: #f6f8fa; border-radius: 5px; border: 1px solid #e1e4e8;">
+            <strong>Note:</strong> This paper is a substantially revised and extended version of the conference paper <em>'Impact of Training Set Size on Representation Learning for Hyperspectral Image Classification,'</em> presented at the Latin American GRSS &amp; ISPRS Remote Sensing Conference (LAGIRS 2025), and published in the ISPRS Annals. <br><br>
+            <a href="https://doi.org/10.5194/isprs-annals-X-3-W4-2025-21-2026" target="_blank" style="color: #0366d6; text-decoration: none;">doi: 10.5194/isprs-annals-X-3-W4-2025-21-2026</a>
+        </div>
     </div>
 
     <div class="main-content">
-        <h1>Assessing the influence of using a reduced number of samples for creating different representation models for hyperspectral image classification</h1>
+        <h1>Impact of Training Set Size on Representation Learning for Hyperspectral Image Classification</h1>
         
-        <h2>Overview</h2>
-        <p>This page presents the visual results of our methodology to evaluate the impact of training sample size (<em>k</em>) on various Representation Learning (RL) models for Hyperspectral Image (HSI) classification.</p>
-        <p>We rigorously compared <strong>pixel-wise baselines</strong> (PCA, AE) against advanced <strong>spatial-spectral models</strong> (including ViT, MAE-ViT, and DINO-ViT) under extreme data scarcity constraints.</p>
+        <h2>Abstract</h2>
+        <p>Hyperspectral Image (HSI) classification relies heavily on representation learning (RL) to manage extreme dimensionality. Advanced spatial-spectral architectures, such as Vision Transformers (ViT) and Self-Supervised models (MAE, DINO), offer state-of-the-art latent embeddings but impose massive computational burdens when trained on complete hyperspectral scenes. In this study, we systematically investigate the impact of training data scarcity—specifically the subset proportion <em>k</em>—on the stability, convergence, and downstream classification efficacy of latent spaces.</p>
+        <p>We evaluate traditional pixel-wise baselines (PCA, AE) alongside modern spatial-spectral transformers across four benchmark datasets (Pavia University, Indian Pines, Salinas Valley, Kennedy Space Center). Our comprehensive analysis demonstrates that robust, highly discriminative representations can be successfully learned using significantly reduced training subsets (as low as 25%). By evaluating class-wise Delta (&Delta;) performance profiles, we identify the exact stability thresholds for minority and majority classes under extreme scarcity constraints. These findings establish a computational blueprint for scaling advanced HSI representation models without sacrificing topological fidelity or classification accuracy.</p>
 
-        <h2>Phase 1: Metric Divergence Table</h2>
-        <p>Optimizing exclusively for Overall Accuracy (OA) often leads to catastrophic failure in minority classes. The following table empirically justifies the selection of F1-Macro as the primary metric for our evaluation.</p>
-        <img src="Results/phase1_metric_divergence_table.png" alt="Metric Divergence Table">
+        <h2>Proposed Methodology</h2>
+        <p>The pipeline consists of extracting spatial-spectral patches from a reduced subset of the hyperspectral image (e.g., 25% to 100% of the training pool), learning a compact latent space through advanced models (like ViT, MAE-ViT, or DINO-ViT), and using these robust embeddings to train downstream classifiers.</p>
+        
+        <p align="center">
+            <img src="Results/Fig_Metodologia.png" alt="Methodology Flowchart" style="width:100%; max-width:800px; border: 1px solid #ccc; border-radius: 5px; margin: 20px 0;">
+        </p>
 
-        <h2>Phase 3: Latent Convergence Analysis</h2>
-        <p>We analyzed how the models converge and behave when increasing their latent dimension (<em>d</em>) capacity.</p>
-        <img src="Results/phase3_latent_convergence_grid.png" alt="Latent Convergence">
+        <h2>1. Classifier Stability and Performance</h2>
+        <p>Distribution of overall stability and performance (F1-macro) of the five base classifiers across all datasets, training proportions (<em>k</em>), and latent dimensions (<em>d</em>).</p>
+        <p><strong>Key Insight:</strong> This distribution emphasizes the robustness of the XGBoost classifier, which consistently dominates in F1-Macro stability across varying latent dimensions and data scarcity levels, significantly outperforming linear and traditional tree-based models.</p>
+        <img src="Results/phase2_classifier_selection_boxplot.png" alt="Classifier Stability Boxplot">
 
-        <h2>Phase 4: Class-wise Delta Performance</h2>
-        <p>How does extreme data scarcity (k=0.25 vs k=1.0) impact each specific class? The following heatmap illustrates the Delta (&Delta;) F1-Score per class for the Indian Pines dataset.</p>
+        <h2>2. Latent Convergence Analysis</h2>
+        <p>Performance convergence (F1-macro) using the XGBoost classifier across varying latent dimensions (<em>d</em>) and data proportions (<em>k=0.25</em> vs. <em>k=1.0</em>).</p>
+        <p><strong>Key Insight:</strong> The convergence grid demonstrates a critical "elbow point" in latent capacity. Models typically reach peak representation efficiency around <em>d=32</em> to <em>d=64</em>. Crucially, the asymptotic behavior remains structurally identical even when training data is aggressively reduced from 100% to 25%, proving the spatial-spectral models' resilience.</p>
+        <img src="Results/phase3_latent_convergence_grid.png" alt="Latent Convergence Grid">
+
+        <h2>3. Class-wise Delta Performance Profile</h2>
+        <p>We analyze how extreme data scarcity (k=0.25 vs k=1.0) impacts specific classes. The following heatmaps illustrate the Delta (&Delta;) F1-Score per class for each dataset (&Delta; = F1<sub>k=1.0</sub> - F1<sub>k=0.25</sub>, CL = XGB, d = 64).</p>
+        <p><strong>Key Insight:</strong> By calculating the precise difference in class-wise F1-Scores, these heatmaps expose the true vulnerability of minority classes. Green cells denote negligible performance loss under scarcity, while orange/red cells pinpoint the specific land-cover classes that suffer catastrophic feature collapse when representation learning is deprived of full spatial context.</p>
+        
+        <h3>Pavia University</h3>
+        <img src="Results_Delta/phase4_delta_analysis_Pavia_University_heatmap.png" alt="Delta Heatmap Pavia University">
+
+        <h3>Indian Pines</h3>
         <img src="Results_Delta/phase4_delta_analysis_Indian_Pines_heatmap.png" alt="Delta Heatmap Indian Pines">
 
-        <h2>Phase 4: Granular Heatmap (Pavia University)</h2>
-        <p>Absolute F1-Score representation for Pavia University across all models and configurations.</p>
-        <img src="Results/phase4_granular_analysis_Pavia_University_heatmap.png" alt="Granular Heatmap Pavia University">
+        <h3>Salinas Valley</h3>
+        <img src="Results_Delta/phase4_delta_analysis_Salinas_heatmap.png" alt="Delta Heatmap Salinas">
+
+        <h3>Kennedy Space Center (KSC)</h3>
+        <img src="Results_Delta/phase4_delta_analysis_KSC_heatmap.png" alt="Delta Heatmap KSC">
 
     </div>
 
